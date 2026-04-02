@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 
 class CategoryCreate(BaseModel):
     name: str
@@ -13,8 +13,8 @@ class CategoryResponse(BaseModel):
 
 
 class ProductCreate(BaseModel):
-    name: str
-    price: float
+    name: str = Field(..., min_length=2, max_length=50)
+    price: float = Field(..., gt=0) # price must be greater than 0
     category_id: int
 
 
@@ -46,8 +46,8 @@ class OrderResponse(BaseModel):
         from_attributes = True
 
 class UserCreate(BaseModel):
-    username: str
-    password: str
+    username: str = Field(..., min_length=3, max_length=20)
+    password: str = Field(..., min_length=6)
 
 
 class UserLogin(BaseModel):
