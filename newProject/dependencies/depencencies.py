@@ -39,14 +39,5 @@ def require_admin(
         raise HTTPException(status_code=403, detail="Admin privileges required")
     return user
 
-@router.get("/me")
-def get_me( 
-    user = Depends(get_current_user)
-):
-    return {
-        "id": user.id,
-        "username": user.username,
-        "role": user.role
-    }
 
 

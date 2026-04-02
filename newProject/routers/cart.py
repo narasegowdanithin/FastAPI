@@ -66,7 +66,9 @@ def view_cart(db: Session = Depends(get_db),
     }
 
 @router.get("/")
-def view_cart(db: Session = Depends(get_db)):
+def view_cart(db: Session = Depends(get_db)
+                #user : User = Depends(get_current_user) # for later, to get user's cart
+                ):
     cart = db.query(Cart).first()
 
     if not cart:
