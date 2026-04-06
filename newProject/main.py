@@ -1,7 +1,13 @@
+import uuid
 from fastapi import FastAPI, Request
 import time
 from fastapi.middleware.cors import CORSMiddleware
-from newProject.routers import products, category, cart, order
+from newProject.routers import products, category, cart, order, user
+from newProject.database.database import engine, Base
+from newProject.models import models ## This triggers SQLAlchemy to recognize your User class
+
+## This is the "Magic Line" that builds the columns (hashed_password, role, etc.)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -19,7 +25,7 @@ app.add_middleware(
 )
 
 # ---------------- Logging Middleware ----------------
-@app.middleware("http")
+@app.middleware("http") #decorators
 async def log_requests(request: Request, call_next):
     start_time = time.time()
     request_id = str(uuid.uuid4())
@@ -39,3 +45,4 @@ app.include_router(category.router)
 app.include_router(products.router)
 app.include_router(cart.router)
 app.include_router(order.router)
+app.include_router(user.router)

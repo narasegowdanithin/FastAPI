@@ -5,6 +5,7 @@ from newProject.database.database import Base
 # ---------------- USER ----------------
 class User(Base):
     __tablename__ = "users"
+    #__table_args__ = {'extend_existing': True}  
 
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True)
@@ -15,6 +16,7 @@ class User(Base):
 # ---------------- CATEGORY ----------------
 class Category(Base):
     __tablename__ = "categories"
+   # __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -25,6 +27,7 @@ class Category(Base):
 # ---------------- PRODUCT ----------------
 class Product(Base):
     __tablename__ = "products"
+    #__table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -37,6 +40,7 @@ class Product(Base):
 # ---------------- CART ----------------
 class Cart(Base):
     __tablename__ = "carts"
+    #__table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -47,6 +51,7 @@ class Cart(Base):
 # ---------------- CART ITEM ----------------
 class CartItem(Base):
     __tablename__ = "cart_items"
+    #__table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     cart_id = Column(Integer, ForeignKey("carts.id"))
@@ -59,6 +64,7 @@ class CartItem(Base):
 # ---------------- ORDER ----------------
 class Order(Base):
     __tablename__ = "orders"
+    #__table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer)
@@ -70,6 +76,7 @@ class Order(Base):
 # ---------------- ORDER ITEM ----------------
 class OrderItem(Base):
     __tablename__ = "order_items"
+    #__table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     order_id = Column(Integer, ForeignKey("orders.id"))
@@ -79,10 +86,3 @@ class OrderItem(Base):
 
     order = relationship("Order", back_populates="items")
 
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    role = Column(String, default="user")
